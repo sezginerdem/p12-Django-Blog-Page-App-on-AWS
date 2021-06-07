@@ -1,8 +1,8 @@
-# Project-503 : Blog Page Application (Django) deployed on AWS Application Load Balancer with Auto Scaling, S3, Relational Database Service(RDS), VPC's Components, DynamoDB and Cloudfront with Route 53 (STUDENT_SOLUTION)
+# Project-12 : Blog Page Application (Django) deployed on AWS Application Load Balancer with Auto Scaling, S3, Relational Database Service(RDS), VPC's Components, DynamoDB and Cloudfront with Route 53 (SOLUTION)
 
 ## Description
 
-The Clarusway Blog Page Application aims to deploy blog application as a web application written Django Framework on AWS Cloud Infrastructure. This infrastructure has Application Load Balancer with Auto Scaling Group of Elastic Compute Cloud (EC2) Instances and Relational Database Service (RDS) on defined VPC. Also, The Cloudfront and Route 53 services are located in front of the architecture and manage the traffic in secure. User is able to upload pictures and videos on own blog page and these are kept on S3 Bucket. This architecture will be created by Firms DevOps Guy.
+The Blog Page Application aims to deploy blog application as a web application written Django Framework on AWS Cloud Infrastructure. This infrastructure has Application Load Balancer with Auto Scaling Group of Elastic Compute Cloud (EC2) Instances and Relational Database Service (RDS) on defined VPC. Also, The Cloudfront and Route 53 services are located in front of the architecture and manage the traffic in secure. User is able to upload pictures and videos on own blog page and these are kept on S3 Bucket. This architecture will be created by Firms DevOps Guy.
 
 ## Steps to Solution
   
@@ -10,30 +10,30 @@ The Clarusway Blog Page Application aims to deploy blog application as a web app
         
     ### VPC
     - Create VPC. 
-        create a vpc named `aws_capstone-VPC` CIDR blok is `90.90.0.0/16` 
+        create a vpc named `blogPageVPC` CIDR blok is `90.90.0.0/16` 
         no ipv6 CIDR block
         tenancy: default
-    - select `aws_capstone-VPC` VPC, click `Actions` and `enable DNS hostnames` for the `aws_capstone-VPC`. 
+    - select `blogPageVPC` VPC, click `Actions` and `enable DNS hostnames` for the `blogPageVPC`. 
 
     ## Subnets
     - Create Subnets
-        - Create a public subnet named `aws_capstone-public-subnet-1A` under the vpc aws_capstone-VPC in AZ us-east-1a with 90.90.10.0/24
-        - Create a private subnet named `aws_capstone-private-subnet-1A` under the vpc aws_capstone-VPC in AZ us-east-1a with 90.90.11.0/24
-        - Create a public subnet named `aws_capstone-public-subnet-1B` under the vpc aws_capstone-VPC in AZ us-east-1b with 90.90.20.0/24
-        - Create a private subnet named `aws_capstone-private-subnet-1B` under the vpc aws_capstone-VPC in AZ us-east-1b with 90.90.21.0/24
+        - Create a public subnet named `blogPageVPC-public-subnet-1A` under the vpc blogPageVPC in AZ us-east-1a with 90.90.10.0/24
+        - Create a private subnet named `blogPageVPC-private-subnet-1A` under the vpc blogPageVPC in AZ us-east-1a with 90.90.11.0/24
+        - Create a public subnet named `blogPageVPC-public-subnet-1B` under the vpc blogPageVPC in AZ us-east-1b with 90.90.20.0/24
+        - Create a private subnet named `blogPageVPC-private-subnet-1B` under the vpc blogPageVPC in AZ us-east-1b with 90.90.21.0/24
 
     - Set `auto-assign IP` up for public subnets. Select each public subnets and click Modify "auto-assign IP settings" and select "Enable auto-assign public IPv4 address" 
 
     ## Internet Gateway
 
-    - Click Internet gateway section on left hand side. Create an internet gateway named `aws_capstone-IGW` and create.
+    - Click Internet gateway section on left hand side. Create an internet gateway named `blogPageIGW` and create.
 
-    - ATTACH the internet gateway `aws_capstone-IGW` to the newly created VPC `aws_capstone-VPC`. Go to VPC and select newly created VPC and click action ---> Attach to VPC ---> Select `aws_capstone-VPC` VPC 
+    - ATTACH the internet gateway `blogPage-IGW` to the newly created VPC `blogPageVPC`. Go to VPC and select newly created VPC and click action ---> Attach to VPC ---> Select `blogPageVPC` VPC 
 
     ## Route Table
-    - Go to route tables on left hand side. We have already one route table as main route table. Change it's name as `aws_capstone-public-RT` 
-    - Create a route table and give a name as `aws_capstone-private-RT`.
-    - Add a rule to `aws_capstone-public-RT` in which destination 0.0.0.0/0 (any network, any host) to target the internet gateway `aws_capstone-IGW` in order to allow access to the internet.
+    - Go to route tables on left hand side. We have already one route table as main route table. Change it's name as `blogPage-public-RT` 
+    - Create a route table and give a name as `blogPage-private-RT`.
+    - Add a rule to `blogPage-public-RT` in which destination 0.0.0.0/0 (any network, any host) to target the internet gateway `blogPage-IGW` in order to allow access to the internet.
     - Select the private route table, come to the subnet association subsection and add private subnets to this route table. Similarly, we will do it for public route table and public subnets. 
         
     ## Endpoint
@@ -41,7 +41,7 @@ The Clarusway Blog Page Application aims to deploy blog application as a web app
     - select endpoint
     - click create endpoint
     - service name  : `com.amazonaws.us-east-1.s3`
-    - VPC           : `aws_capstone-VPC`
+    - VPC           : `blogPageVPC`
     - Route Table   : private route tables
     - Policy        : `Full Access`
     - Create
@@ -49,35 +49,35 @@ The Clarusway Blog Page Application aims to deploy blog application as a web app
 ### Step 2: Create Security Groups (ALB ---> EC2 ---> RDS)
 
 1. ALB Security Group
-Name            : aws_capstone_ALB_Sec_Group
+Name            : blogPage_ALB_Sec_Group
 Description     : ALB Security Group allows traffic HTTP and HTTPS ports from anywhere 
 Inbound Rules
-VPC             : AWS_Capstone_VPC
+VPC             : blogPage_VPC
 HTTP(80)    ----> anywhere
 HTTPS (443) ----> anywhere
 
 2. EC2 Security Groups
-Name            : aws_capstone_EC2_Sec_Group
-Description     : EC2 Security Groups only allows traffic coming from aws_capstone_ALB_Sec_Group Security Groups for HTTP and HTTPS ports. In addition, ssh port is allowed from anywhere
-VPC             : AWS_Capstone_VPC
+Name            : blogPage_EC2_Sec_Group
+Description     : EC2 Security Groups only allows traffic coming from blogPage_ALB_Sec_Group Security Groups for HTTP and HTTPS ports. In addition, ssh port is allowed from anywhere
+VPC             : blogPage_VPC
 Inbound Rules
-HTTP(80)    ----> aws_capstone_ALB_Sec_Group
-HTTPS (443) ----> aws_capstone_ALB_Sec_Group
+HTTP(80)    ----> blogPage_ALB_Sec_Group
+HTTPS (443) ----> blogPage_ALB_Sec_Group
 ssh         ----> anywhere
 
 3. RDS Security Groups
-Name            : aws_capstone_RDS_Sec_Group
-Description     : EC2 Security Groups only allows traffic coming from aws_capstone_EC2_Sec_Group Security Groups for MYSQL/Aurora port. 
+Name            : blogPage_RDS_Sec_Group
+Description     : EC2 Security Groups only allows traffic coming from blogPage_EC2_Sec_Group Security Groups for MYSQL/Aurora port. 
 
-VPC             : AWS_Capstone_VPC
+VPC             : blogPage_VPC
 Inbound Rules
-MYSQL/Aurora(3306)  ----> aws_capstone_EC2_Sec_Group
+MYSQL/Aurora(3306)  ----> blogPage_EC2_Sec_Group
 
 4. NAT Instance Security Group
-Name            : aws_capstone_NAT_Sec_Group
+Name            : blogPage_NAT_Sec_Group
 Description     : ALB Security Group allows traffic HTTP and HTTPS and SSH ports from anywhere 
 Inbound Rules
-VPC             : AWS_Capstone_VPC
+VPC             : blogPage_VPC
 HTTP(80)    ----> anywhere
 HTTPS (443) ----> anywhere
 SSH (22)    ----> anywhere
@@ -85,11 +85,11 @@ SSH (22)    ----> anywhere
 ### Step 3: Create RDS
 First we create a subnet group for our custom VPC. Click `subnet Groups` on the left hand menu and click `create DB Subnet Group` 
 ```text
-Name               : aws_capstone_RDS_Subnet_Group
-Description        : aws capstone RDS Subnet Group
-VPC                : aws_capstone_VPC
+Name               : blogPage_RDS_Subnet_Group
+Description        : blog capstone RDS Subnet Group
+VPC                : blogPage_VPC
 Add Subnets
-Availability Zones : Select 2 AZ in aws_capstone_VPC
+Availability Zones : Select 2 AZ in blogPage_VPC
 Subnets            : Select 2 Private Subnets in these subnets
 
 ```
@@ -100,16 +100,16 @@ Engine Options  : Mysql
 Version         : 8.0.20
 Templates       : Free Tier
 Settings        : 
-    - DB instance identifier : aws-capstone-RDS
+    - DB instance identifier : blog-page-RDS
     - Master username        : admin
-    - Password               : Clarusway1234 
+    - Password               : admin1234
 DB Instance Class            : Burstable classes (includes t classes) ---> db.t2.micro
 Storage                      : 20 GB and enable autoscaling(up to 40GB)
 Connectivity:
-    VPC                      : aws_capstone_VPC
-    Subnet Group             : aws_capstone_RDS_Subnet_Group
+    VPC                      : blogPage_VPC
+    Subnet Group             : blogPage_RDS_Subnet_Group
     Public Access            : No 
-    VPC Security Groups      : Choose existing ---> aws_capstone_RDS_Sec_Group
+    VPC Security Groups      : Choose existing ---> blogPage_RDS_Sec_Group
     Availability Zone        : No preference
     Additional Configuration : Database port ---> 3306
 Database authentication ---> Password authentication
@@ -122,14 +122,14 @@ Additional Configuration:
 create instance
 ```
 
-### Step 4: Create two S3 Buckets and set one of these as static website.
+### Step 4: Create two S3 Buckets and set one of these as static website
 Go to the S3 Consol and lets create two buckets. 
 
 1. Blog Website's S3 Bucket
 
 - Click Create Bucket
 ```text
-Bucket Name : awscapstones3<YOUR NAME>blog
+Bucket Name : sezginsblog
 Region      : N.Virginia
 Block all public access : Unchecked
 Other Settings are keep them as are
@@ -140,26 +140,26 @@ create bucket
 
 - Click Create Bucket
 ```text
-Bucket Name : www.<YOUR DNS NAME>
+Bucket Name : www.sezginsblog.uk
 Region      : N.Virginia
 Block all public access : Unchecked
 Please keep other settings as are
 ```
 - create bucket
 
-- Selects created `www.<YOUR DNS NAME>` bucket ---> Properties ---> Static website hosting
+- Selects created `www.sezginsblog.uk` bucket ---> Properties ---> Static website hosting
 ```text
 Static website hosting : Enable
 Hosting Type : Host a static website
 Index document : index.html
 save changes
 ```
-- Select `www.<YOUR DNS NAME>` bucket ---> select Upload and upload `index.html` and `sorry.jpg` files from given folder---> Permissions ---> Grant public-read access ---> Checked warning massage
+- Select `www.sezginsblog.uk` bucket ---> select Upload and upload `index.html` and `sorry.jpg` files from given folder---> Permissions ---> Grant public-read access ---> Checked warning massage
 
 ## Step 5: Copy files downloaded or cloned from `Clarusway_project` repo on Github 
 
 ## Step 6: Prepair your Github repository
-- Create private project repository on your Github and clone it on your local. Copy all files and folders which are downloaded from clarusway repo under this folder. Commit and push them on your private Git hup Repo.
+- Create private project repository on your Github and clone it on your local. Copy all files and folders which are downloaded from GitHub repo under this folder. Commit and push them on your private GitHup repo.
 
 ## Step 7: Prepare a userdata to be utilized in Launch Template
 Please 
@@ -169,13 +169,13 @@ apt-get update -y
 apt-get install git -y
 apt-get install python3 -y
 cd /home/ubuntu/
-TOKEN="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-git clone https://$TOKEN@<YOUR PRIVATE REPO URL>
-cd /home/ubuntu/<YOUR PRIVATE REPO NAME>
+TOKEN="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"
+git clone https://$TOKEN@github.com/sezginerdem/p12-Django-Blog-Page-App-on-AWS.git
+cd /home/ubuntu/p12-Django-Blog-Page-App-on-AWS
 apt install python3-pip -y
 apt-get install python3.7-dev default-libmysqlclient-dev -y
 pip3 install -r requirements.txt
-cd /home/ubuntu/<YOUR PRIVATE REPO NAME>/src
+cd /home/ubuntu/p12-Django-Blog-Page-App-on-AWS/src
 python3 manage.py collectstatic --noinput
 python3 manage.py makemigrations
 python3 manage.py migrate
@@ -185,7 +185,7 @@ python3 manage.py runserver 0.0.0.0:80
 ## Step 8: Write RDS database endpoint and S3 Bucket name in settings file given by Clarusway Fullstack Developer team and push your application into your own public repo on Github
 Please follow and apply the instructions in the developer_notes.txt.
 ```text
-- Movie and picture files are kept on S3 bucket named aws_capstone_S3_<name>_Blog as object. You should create an S3 bucket and write name of it on "/src/cblog/settings.py" file as AWS_STORAGE_BUCKET_NAME variable. In addition, you must assign region of S3 as AWS_S3_REGION_NAME variable
+- Movie and picture files are kept on S3 bucket named `sezginsblog` as object. You should create an S3 bucket and write name of it on "/src/cblog/settings.py" file as AWS_STORAGE_BUCKET_NAME variable. In addition, you must assign region of S3 as AWS_S3_REGION_NAME variable
 
 - Users credentials and blog contents are going to be kept on RDS database. To connect EC2 to RDS, following variables must be assigned on "/src/cblog/settings.py" file after you create RDS;
     a. Database name - "NAME" variable 
@@ -203,13 +203,13 @@ write "NAT" into the filter box
 select NAT Instance `amzn-ami-vpc-nat-hvm-2018.03.0.20181116-x86_64-ebs` 
 Instance Type: t2.micro
 Configure Instance Details  
-    - Network : aws_capstone_VPC
-    - Subnet  : aws_capstone-public-subnet-1A (Please select one of your Public Subnets)
+    - Network : blogPage_VPC
+    - Subnet  : blogPage-public-subnet-1A (Please select one of your Public Subnets)
     - Other features keep them as are
 Storage ---> Keep it as is
-Tags: Key: Name     Value: AWS Capstone NAT Instance
+Tags: Key: Name     Value: Blog Page NAT Instance
 Configure Security Group
-    - Select an existing security group: aws_capstone_NAT_Sec_Group
+    - Select an existing security group: blogPage_NAT_Sec_Group
 Review and select our own pem key
 ```
 
@@ -228,23 +228,23 @@ Go to the IAM role console click role on the right hand menu than create role
 trusted entity  : EC2 as  ---> click Next:Permission
 Policy          : AmazonS3FullAccess policy
 Tags            : No tags
-Role Name       : aws_capstone_EC2_S3_Full_Access
+Role Name       : blogPage_EC2_S3_Full_Access
 Description     : For EC2, S3 Full Access Role
 ```
 
 To create Launch Template, go to the EC2 console and select `Launch Template` on the left hand menu. Tab the Create Launch Template button.
 ```bash
-Launch template name                : aws_capstone_launch_template
+Launch template name                : sezginsblog_launch_template
 Template version description        : Blog Web Page version 1
 Amazon machine image (AMI)          : Ubuntu 18.04
 Instance Type                       : t2.micro
 Key Pair                            : mykey.pem
 Network Platform                    : VPC
-Security Groups                     : aws_capstone_EC2_sec_group
+Security Groups                     : sezginsblog_EC2_sec_group
 Storage (Volumes)                   : keep it as is
-Resource tags                       : Key: Name   Value: aws_capstone_web_server
+Resource tags                       : Key: Name   Value: blogPage_web_server
 Advance Details:
-    - IAM instance profile          : aws_capstone_EC2_S3_Full_Access
+    - IAM instance profile          : sezginsblog_EC2_S3_Full_Access
     - Termination protection        : Enable
     - User Data
 #!/bin/bash
@@ -252,42 +252,42 @@ apt-get update -y
 apt-get install git -y
 apt-get install python3 -y
 cd /home/ubuntu/
-TOKEN="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-git clone https://$TOKEN@<YOUR PRIVATE REPO URL>
-cd /home/ubuntu/<YOUR PRIVATE REPO NAME>
+TOKEN="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"
+git clone https://$TOKEN@github.com/sezginerdem/p12-Django-Blog-Page-App-on-AWS.git
+cd /home/ubuntu/p12-Django-Blog-Page-App-on-AWS
 apt install python3-pip -y
 apt-get install python3.7-dev default-libmysqlclient-dev -y
 pip3 install -r requirements.txt
-cd /home/ubuntu/<YOUR PRIVATE REPO NAME>/src
+cd /home/ubuntu/p12-Django-Blog-Page-App-on-AWS/src
 python3 manage.py collectstatic --noinput
 python3 manage.py makemigrations
 python3 manage.py migrate
 python3 manage.py runserver 0.0.0.0:80
-```
+
 - create launch template
 
 ## Step 11: Create certification for secure connection
-Go to the certification manager console and click `request a certificate` button. Select `Request a public certificate`, then `request a certificate` ---> `*.<YOUR DNS NAME>` ---> DNS validation ---> No tag ---> Review ---> click confirm and request button. Then it takes a while to be activated. 
+Go to the certification manager console and click `request a certificate` button. Select `Request a public certificate`, then `request a certificate` ---> `*. www.sezginsblog.uk` ---> DNS validation ---> No tag ---> Review ---> click confirm and request button. Then it takes a while to be activated. 
 
 ## Step 12: Create ALB and Target Group
 Go to the Load Balancer section on the left hand side menu of EC2 console. Click `create Load Balancer` button and select Application Load Balancer
 ```text
-Name                    : awscapstoneALB
+Name                    : blogPageALB
 Schema                  : internet-facing
 Listeners               : HTTPS, HTTP
 Availability Zones      : 
-    - VPC               : aws_capstone_VPC
+    - VPC               : blogPageVPC
     - Availability zones: 
-        1. aws_capstone-public-subnet-1A
-        2. aws_capstone-public-subnet-1B
+        1. blogPageVPC-public-subnet-1A
+        2. blogPageVPC-public-subnet-1B
 Step 2 - Configure Security Settings
 Certificate type ---> Choose a certificate from ACM (recommended)
-    - Certificate name    : "*.clarusway.us" certificate
+    - Certificate name    : "*.sezginsblog.uk" certificate
     - Security policy     : keep it as is
-Step 3 - Configure Security Groups : aws_capstone_ALB_Sec_group
+Step 3 - Configure Security Groups : blogPage_ALB_Sec_group
 Step 4 - Configure Routing
     - Target group        : New target group
-    - Name                : awscapstoneTargetGroup
+    - Name                : blogTargetGroup
     - Target Type         : Instance
     - Protocol            : HTTP
     - Port                : 80
@@ -324,8 +324,8 @@ Go to the Autoscaling Group on the left hand side menu. Click create Autoscaling
 
 - Choose launch template or configuration
 ```text 
-Auto Scaling group name         : aws_capstone_ASG
-Launch Template                 : aws_capstone_launch_template
+Auto Scaling group name         : blog_ASG
+Launch Template                 : sezginsblog_launch_template
 ```
 
 - Configure settings
@@ -333,18 +333,18 @@ Launch Template                 : aws_capstone_launch_template
 ```text
 Instance purchase options       : Adhere to launch template
 Network                         :
-    - VPC                       : aws-capstone-VPC
+    - VPC                       : blogPageVPC
     - Subnets                   : Private 1A and Private 1B
 ```
 
 - Configure advanced options
 
 ```text
-- Load balancing                                : Attach to an existing load balancer
-- Choose from your load balancer target groups  : awscapstoneTargetGroup
+- Load balancing                : Attach to an existing load balancer
+- Choose from your load balancer target groups : blogTargetGroup
 - Health Checks
-    - Health Check Type             : ELB
-    - Health check grace period     : 300
+    - Health Check Type         : ELB
+    - Health check grace period : 300
 ```
 
 - Configure group size and scaling policies
@@ -365,8 +365,8 @@ Scaling policies
 ```text
 Create new Notification
     - Notification1
-        - Send a notification to    : aws-capstone-SNS
-        - with these recipients     : serdar@clarusway.com
+        - Send a notification to    : blog-SNS
+        - with these recipients     : drsezginerdem.com
         - event type                : select all 
 ```
 
@@ -385,7 +385,7 @@ Go to the cloudfront menu and click start
 - Origin Settings
 
 ```text
-Origin Domain Name          : <YOUR ALB DNS NAME>
+Origin Domain Name          : www.sezginsblog.uk
 Origin Path                 : Leave empty (this means, define for root '/')
 Enable Origin Shield        : No
 Origin ID                   : Keep it as given by AWS
@@ -422,7 +422,7 @@ Other stuff                             : Keep them as are
 - Distribution Settings
 
 ```text
-Alternate Domain Names                  : www.<YOUR DNS NAME>
+Alternate Domain Names                  : www.sezginsblog.uk
 SSL Certificate                         : Custom SSL Certificate (example.com) ---> Select your certificate created in Step 11
 Other stuff                             : Keep them as are                  
 ```
@@ -432,7 +432,7 @@ Come to the Route53 console and select Health checks on the left hand menu. Clic
 Configure health check
 
 ```text
-Name                : aws capstone health check
+Name                : blog health check
 What to monitor     : Endpoint
 Specify endpoint by : Domain Name
 Protocol            : HTTP
@@ -443,7 +443,7 @@ Other stuff         : Keep them as are
 ```
 - Click Hosted zones on the left hand menu
 
-- click your Hosted zone        : <YOUR DNS NAME>
+- click your Hosted zone        : www.sezginsblog.uk
 
 - Create Failover scenario
 
@@ -452,7 +452,7 @@ Other stuff         : Keep them as are
 - Select Failover ---> Click Next
 ```text
 Configure records
-Record name             : www.<YOUR DNS NAME>
+Record name             : www.sezginsblog.uk
 Record Type             : A - Routes traffic to an IPv4 address and some AWS resources
 TTL                     : 300
 
@@ -463,7 +463,7 @@ Failover record to add to your DNS ---> Define failover record
 Value/Route traffic to  : Alias to cloudfront distribution
                           - Select created cloudfront DNS
 Failover record type    : Primary
-Health check            : aws capstone health check
+Health check            : blog health check
 Record ID               : Cloudfront as Primary Record
 ----------------------------------------------------------------
 
@@ -486,7 +486,7 @@ Go to the Dynamo Db table and click create table button
 
 - Create DynamoDB table
 ```text
-Name            : awscapstoneDynamo
+Name            : blogDynamo
 Primary key     : id
 Other Stuff     : Keep them as are
 click create
@@ -501,7 +501,7 @@ Choose: - LambdaS3fullaccess,
         - Network Administrator
         - DynamoDBFullAccess
 No tags
-Role Name           : aws_capstone_lambda_Role
+Role Name           : blog_lambda_Role
 Role description    : This role give a permission to lambda to reach S3 and DynamoDB on custom VPC
 ```
 
@@ -510,13 +510,13 @@ then, go to the Lambda Console and click create function
 - Basic Information
 ```text
 
-Function Name           : awscapsitonelambdafunction
+Function Name           : bloglambdafunction
 Runtime                 : Python 3.8
 Create IAM role         : S3 full access policy
 
 Advance Setting:
 Network                 : 
-    - VPC               : aws-capstone-VPC
+    - VPC               : blogPageVPC
     - Subnets           : Select all subnets
     - Security Group    : Select default security Group
 ```
@@ -525,29 +525,29 @@ Network                 :
 
 ## Step 17-18: Create S3 Event and set it as trigger for Lambda Function
 
-Go to the S3 console and select the S3 bucket named `awscapstonec3<name>blog`.
+Go to the S3 console and select the S3 bucket named `sezginsblog`.
 
 - Go to the properties menu ---> Go to the Event notifications part
 
 - Click create event notification for creating object
 ```text
-Event Name              : aws capstone S3 event
+Event Name              : blog S3 event
 Prefix                  : media/
 Select                  :
     - All object create events
 Destination             : Lambda Function
 Specify Lambda function : Choose from your Lambda functions 
-Lambda funstion         : awscapstonelambdafunction
+Lambda funstion         : bloglambdafunction
 click save
 ```text
 
 ```
-- After create an event go to the `awscapstonelambdafunction` lambda Function and click add trigger on the top left hand side.
+- After create an event go to the `bloglambdafunction` lambda Function and click add trigger on the top left hand side.
 
 - For defining trigger for creating objects
 ```text
 Trigger configuration   : S3
-Bucket                  : awscapstonec3<name>blog
+Bucket                  : sezginsblog
 Event type              : All object create events
 Check the warning message and click add ---> sometimes it says overlapping situation. When it occurs, try refresh page and create a new trigger or remove the s3 event and recreate again. then again create a trigger for lambda function
 ```
@@ -556,7 +556,7 @@ Check the warning message and click add ---> sometimes it says overlapping situa
 ```bash
 
 Trigger configuration   : S3
-Bucket                  : awscapstonec3<name>blog
+Bucket                  : sezginsblog
 Event type              : All object delete events
 Check the warning message and click add ---> sometimes it says overlapping situation. When it occurs, try refresh page and create a new trigger or remove the s3 event and recreate again. then again create a trigger for lambda function
 ```
@@ -580,7 +580,7 @@ def lambda_handler(event, context):
         filename2 = filename1[-1]
         
         dynamo_db = boto3.resource('dynamodb')
-        dynamoTable = dynamo_db.Table('awscapstoneDynamo')
+        dynamoTable = dynamo_db.Table('blogDynamo')
         
         dynamoTable.put_item(Item = {
             'id': filename2,
@@ -595,4 +595,4 @@ def lambda_handler(event, context):
 
 - WE ALL SET
 
-- Congratulations!! You have finished your AWS Capstone Project
+- Congratulations!!
