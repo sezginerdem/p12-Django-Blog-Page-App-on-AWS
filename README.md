@@ -1,8 +1,8 @@
-# Project-503 : Blog Page Application (Django) deployed on AWS Application Load Balancer with Auto Scaling, S3, Relational Database Service(RDS), VPC's Components, Lambda, DynamoDB and Cloudfront with Route 53
+# Project-12 : Django Blog Page Application deployed on AWS Application Load Balancer with Auto Scaling, S3, Relational Database Service(RDS), VPC's Components, Lambda, DynamoDB and Cloudfront with Route 53
 
 ## Description
 
-The Clarusway Blog Page Application aims to deploy blog application as a web application written Django Framework on AWS Cloud Infrastructure. This infrastructure has Application Load Balancer with Auto Scaling Group of Elastic Compute Cloud (EC2) Instances and Relational Database Service (RDS) on defined VPC. Also, The Cloudfront and Route 53 services are located in front of the architecture and manage the traffic in secure. User is able to upload pictures and videos on own blog page and these are kept on S3 Bucket. This architecture will be created by Firms DevOps Guy.
+Blog Page Application aims to deploy blog application as a web application written Django Framework on AWS Cloud Infrastructure. This infrastructure has Application Load Balancer with Auto Scaling Group of Elastic Compute Cloud (EC2) Instances and Relational Database Service (RDS) on defined VPC. Also, The Cloudfront and Route 53 services are located in front of the architecture and manage the traffic in secure. User is able to upload pictures and videos on own blog page and these are kept on S3 Bucket. This architecture will be created by Firms DevOps Guy.
 
 ## Problem Statement
 
@@ -10,13 +10,13 @@ The Clarusway Blog Page Application aims to deploy blog application as a web app
 
 - Your company has recently ended up a project that aims to serve as Blog web application on isolated VPC environment. You and your colleagues have started to work on the project. Your Developer team has developed the application and you are going to deploy the app in production environment.
 
-- Application is coded by Clarusway Fullstack development team and given you as DevOps team. App allows users to write their own blog page to whom user registration data should be kept in separate MySQL database in AWS RDS service and pictures or videos should be kept in S3 bucket. The object list of S3 Bucket containing movies and videos is recorded on DynamoDB table. 
+- Application is coded by Fullstack development team and given you as DevOps team. App allows users to write their own blog page to whom user registration data should be kept in separate MySQL database in AWS RDS service and pictures or videos should be kept in S3 bucket. The object list of S3 Bucket containing movies and videos is recorded on DynamoDB table. 
 
 - The web application will be deployed using Django framework.
 
 - The Web Application should be accessible via web browser from anywhere in secure.
 
-- You are requested to push your program to the project repository on the Github. You are going to pull it into the webservers in the production environment on AWS Cloud. 
+- You are requested to push your program to the project repository on the GitHub. You are going to pull it into the webservers in the production environment on AWS Cloud. 
 
 In the architecture, you can configure your infrastructure using the followings,
 
@@ -78,9 +78,9 @@ In the architecture, you can configure your infrastructure using the followings,
 
     - Prepare Django environment on EC2 instance based on Developer Notes,
 
-    - Download the "clarusway_aws_capstone" folder from Github repository,
+    - Download the "clarusway_aws_capstone" folder from GitHub repository,
 
-    - Install the requirements using requirements.txt in 'clarusway_aws_capstone' folder
+    - Install the requirements using requirements.txt in 'blogPage' folder
 
     - Deploy the Django application on port 80.
 
@@ -88,7 +88,7 @@ In the architecture, you can configure your infrastructure using the followings,
 
     - EC2 Instances type can be configured as `t2.micro`.
 
-    - Instance launched should be tagged `Clarusway AWS Capstone Project`
+    - Instance launched should be tagged `Blog Page`
 
     - Since Django App needs to talk with S3, S3 full access role must be attached EC2s. 
 
@@ -152,7 +152,7 @@ In the architecture, you can configure your infrastructure using the followings,
 
       - Lambda function is going to be Python 3.8
 
-      - Python Function can be found in github repo
+      - Python Function can be found in GitHub repo
 
       - S3 event is set as trigger
 
@@ -170,13 +170,13 @@ In the architecture, you can configure your infrastructure using the followings,
 ## Project Skeleton 
 
 ```text
-clarusway_blog_proj (folder)
+blog_page (folder)
 |
-|----Readme.md               # Given to the students (Definition of the project)
-|----src (folder)            # Given to the students (Django Application's )
-|----requirements.txt        # Given to the students (txt file)
-|----lambda_function.py      # Given to the students (python file)
-|----developer_notes.txt     # Given to the students (txt file)
+|----Readme.md               # Given (Definition of the project)
+|----src (folder)            # Given (Django Application's )
+|----requirements.txt        # Given (txt file)
+|----lambda_function.py      # Given (python file)
+|----developer_notes.txt     # Given (txt file)
 ```
 
 ## Expected Outcome
@@ -228,7 +228,7 @@ clarusway_blog_proj (folder)
 
 - Route 53 Configuration
 
-- Git & Github for Version Control System
+- Git & GitHub for Version Control System
 
 ### At the end of the project, students will be able to;
 
@@ -244,7 +244,7 @@ clarusway_blog_proj (folder)
 
 - Demonstrate their configuration skills of AWS VPC, EC2 Launch Templates, Application Load Balancer, ALB Target Group, ALB Listener, Auto Scaling Group, S3, RDS, Cloudfront, Route 53.
 
-- Apply git commands (push, pull, commit, add etc.) and Github as Version Control System.
+- Apply git commands (push, pull, commit, add etc.) and GitHub as Version Control System.
 
 ## Steps to Solution
   
@@ -256,9 +256,9 @@ clarusway_blog_proj (folder)
 
 - Step 4: Create two S3 Buckets and set one of these as static website.
 
-- Step 5: Download or clone project definition from `Clarusway` repo on Github 
+- Step 5: Download or clone project definition from repo on GitHub 
 
-- Step 6: Prepare your Github repository 
+- Step 6: Prepare your GitHub repository 
 
 - Step 7: Prepare a userdata to be utilized in Launch Template
 
