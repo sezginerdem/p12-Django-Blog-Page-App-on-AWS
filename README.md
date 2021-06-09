@@ -22,7 +22,7 @@ In the architecture, you can configure your infrastructure using the followings,
 
   - The application stack should be created with new AWS resources.
 
-  - Specifications of VPC
+  - Specifications of VPC:
 
     - VPC has two AZs and every AZ has 1 public and 1 private subnets.
 
