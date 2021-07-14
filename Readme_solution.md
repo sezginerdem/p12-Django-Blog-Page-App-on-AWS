@@ -156,12 +156,12 @@ save changes
 ```
 - Select `www.sezginsblog.uk` bucket ---> select Upload and upload `index.html` and `sorry.jpg` files from given folder---> Permissions ---> Grant public-read access ---> Checked warning massage
 
-## Step 5: Copy files downloaded or cloned from `Clarusway_project` repo on Github 
+### Step 5: Copy files downloaded or cloned from `Clarusway_project` repo on Github 
 
-## Step 6: Prepair your Github repository
+### Step 6: Prepair your Github repository
 - Create private project repository on your Github and clone it on your local. Copy all files and folders which are downloaded from GitHub repo under this folder. Commit and push them on your private GitHup repo.
 
-## Step 7: Prepare a userdata to be utilized in Launch Template
+### Step 7: Prepare a userdata to be utilized in Launch Template
 
 ```bash
 #!/bin/bash
@@ -182,7 +182,7 @@ python3 manage.py migrate
 python3 manage.py runserver 0.0.0.0:80
 ```
 
-## Step 8: Write RDS database endpoint and S3 Bucket name in settings file given by Clarusway Fullstack Developer team and push your application into your own public repo on Github
+### Step 8: Write RDS database endpoint and S3 Bucket name in settings file given by Clarusway Fullstack Developer team and push your application into your own public repo on Github
 
 Please follow and apply the instructions in the developer_notes.txt.
 ```text
@@ -196,7 +196,7 @@ Please follow and apply the instructions in the developer_notes.txt.
 ```
 - Please check if this userdata is working or not. to do this create new instance in public subnet and show to students that it is working
 
-## Step 9: Create NAT Instance in Public Subnet
+### Step 9: Create NAT Instance in Public Subnet
 To launch NAT instance, go to the EC2 console and click the create button.
 
 ```text
@@ -223,7 +223,7 @@ Target      : instance ---> Select NAT Instance
 Save
 ```
 
-## Step 10: Create Launch Template and IAM role for it
+### Step 10: Create Launch Template and IAM role for it
 Go to the IAM role console click role on the right hand menu than create role
 ```text
 trusted entity  : EC2 as  ---> click Next:Permission
@@ -248,6 +248,7 @@ Advance Details:
     - IAM instance profile          : sezginsblog_EC2_S3_Full_Access
     - Termination protection        : Enable
     - User Data
+```
 #!/bin/bash
 apt-get update -y
 apt-get install git -y
@@ -264,13 +265,14 @@ python3 manage.py collectstatic --noinput
 python3 manage.py makemigrations
 python3 manage.py migrate
 python3 manage.py runserver 0.0.0.0:80
+```
 
 - create launch template
 
-## Step 11: Create certification for secure connection
+### Step 11: Create certification for secure connection
 Go to the certification manager console and click `request a certificate` button. Select `Request a public certificate`, then `request a certificate` ---> `*. www.sezginsblog.uk` ---> DNS validation ---> No tag ---> Review ---> click confirm and request button. Then it takes a while to be activated. 
 
-## Step 12: Create ALB and Target Group
+### Step 12: Create ALB and Target Group
 Go to the Load Balancer section on the left hand side menu of EC2 console. Click `create Load Balancer` button and select Application Load Balancer
 ```text
 Name                    : blogPageALB
@@ -319,7 +321,7 @@ select HTTP: 80 rule ---> click edit
 ```
 Lets go ahead and look at our ALB DNS --> it going to say "it is not safe", however, it will be fixed after settings of Route 53
 
-## Step 13: Create Autoscaling Group with Launch Template 
+### Step 13: Create Autoscaling Group with Launch Template 
 
 Go to the Autoscaling Group on the left hand side menu. Click create Autoscaling group. 
 
@@ -381,7 +383,7 @@ ssh ubuntu@<Public IP or DNS name of private instance>  (NAT instance)
 You are in the private EC2 instance
 ``` -->
 
-## Step 14: Create Cloudfront in front of ALB
+### Step 14: Create Cloudfront in front of ALB
 Go to the cloudfront menu and click start
 - Origin Settings
 
@@ -428,7 +430,7 @@ SSL Certificate                         : Custom SSL Certificate (example.com) -
 Other stuff                             : Keep them as are                  
 ```
 
-## Step 15: Create Route 53 with Failover settings
+### Step 15: Create Route 53 with Failover settings
 Come to the Route53 console and select Health checks on the left hand menu. Click create health check
 Configure health check
 
@@ -482,7 +484,7 @@ Record ID               : S3 Bucket for Secondary record type
 
 - click create records
 
-## Step 16: Create DynamoDB Table
+### Step 16: Create DynamoDB Table
 Go to the Dynamo Db table and click create table button
 
 - Create DynamoDB table
@@ -493,7 +495,7 @@ Other Stuff     : Keep them as are
 click create
 ```
 
-## Step 17-18: Create Lambda function
+### Step 17-18: Create Lambda function
 
 Before we create our Lambda function, we should create IAM role that we'll use for Lambda function. Go to the IAM console and select role on the left hand menu, then create role button
 ```text
