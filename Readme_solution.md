@@ -485,7 +485,7 @@ Record ID               : S3 Bucket for Secondary record type
 
 - click create records
 
-### Step 16: Create DynamoDB Table
+### Step 16: Create DynamoDB Table
 Go to the Dynamo Db table and click create table button
 
 - Create DynamoDB table
