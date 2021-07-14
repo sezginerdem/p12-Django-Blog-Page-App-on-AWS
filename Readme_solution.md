@@ -249,6 +249,7 @@ Advance Details:
     - Termination protection        : Enable
     - User Data
 ```
+``` bash
 #!/bin/bash
 apt-get update -y
 apt-get install git -y
@@ -269,7 +270,7 @@ python3 manage.py runserver 0.0.0.0:80
 
 - create launch template
 
-### Step 11: Create certification for secure connection
+### Step 11: Create certification for secure connection
 Go to the certification manager console and click `request a certificate` button. Select `Request a public certificate`, then `request a certificate` ---> `*. www.sezginsblog.uk` ---> DNS validation ---> No tag ---> Review ---> click confirm and request button. Then it takes a while to be activated. 
 
 ### Step 12: Create ALB and Target Group
@@ -526,7 +527,7 @@ Network                 :
 
 - Now we'll go to the S3 bucket belongs our website and create an event to trigger our Lambda function. 
 
-## Step 17-18: Create S3 Event and set it as trigger for Lambda Function
+### Step 17-18: Create S3 Event and set it as trigger for Lambda Function
 
 Go to the S3 console and select the S3 bucket named `sezginsblog`.
 
