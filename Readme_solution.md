@@ -161,8 +161,8 @@ save changes
 ## Step 6: Prepair your Github repository
 - Create private project repository on your Github and clone it on your local. Copy all files and folders which are downloaded from GitHub repo under this folder. Commit and push them on your private GitHup repo.
 
-## Step 7: Prepare a userdata to be utilized in Launch Template
-Please 
+## Step 7: Prepare a userdata to be utilized in Launch Template
+
 ```bash
 #!/bin/bash
 apt-get update -y
@@ -182,7 +182,8 @@ python3 manage.py migrate
 python3 manage.py runserver 0.0.0.0:80
 ```
 
-## Step 8: Write RDS database endpoint and S3 Bucket name in settings file given by Clarusway Fullstack Developer team and push your application into your own public repo on Github
+## Step 8: Write RDS database endpoint and S3 Bucket name in settings file given by Clarusway Fullstack Developer team and push your application into your own public repo on Github
+
 Please follow and apply the instructions in the developer_notes.txt.
 ```text
 - Movie and picture files are kept on S3 bucket named `sezginsblog` as object. You should create an S3 bucket and write name of it on "/src/cblog/settings.py" file as AWS_STORAGE_BUCKET_NAME variable. In addition, you must assign region of S3 as AWS_S3_REGION_NAME variable
