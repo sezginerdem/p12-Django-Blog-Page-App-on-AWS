@@ -301,4 +301,4 @@ blog_page (folder)
 
 - [Python Django Example](https://realpython.com/get-started-with-django-1/)
 
-- [AWS CLI Command Reference](https://docs.aws.amazon.com/cli/latest/index.html)
+- [AWS CLI Command Reference](https://docs.aws.amazon.com/cli/latest/index.html) 
