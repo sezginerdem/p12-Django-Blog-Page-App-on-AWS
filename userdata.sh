@@ -3,7 +3,7 @@ apt-get update -y
 apt-get install git -y
 apt-get install python3 -y
 cd /home/ubuntu/
-TOKEN=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+TOKEN=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 git clone https://$TOKEN@<YOUR GITHUB REPO URL>
 cd /home/ubuntu/<YOUR GITHUB REPO NAME>
 apt install python3-pip -y
