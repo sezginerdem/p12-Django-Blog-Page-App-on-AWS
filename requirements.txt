@@ -14,6 +14,6 @@ python-decouple==3.3
 pytz==2020.5
 s3transfer==0.3.4
 six==1.15.0
-sqlparse==0.4.1
+sqlparse==0.4.2
 toml==0.10.2
 urllib3==1.26.3
