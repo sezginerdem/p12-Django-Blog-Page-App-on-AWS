@@ -7,7 +7,7 @@ django-crispy-forms==1.10.0
 django-storages==1.11.1
 jmespath==0.10.0
 mysqlclient==2.0.3
-Pillow==8.0.1
+Pillow==9.0.1
 pycodestyle==2.6.0
 python-dateutil==2.8.1
 python-decouple==3.3
